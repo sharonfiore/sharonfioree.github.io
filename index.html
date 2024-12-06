@@ -11,7 +11,7 @@
             background-color: #f8f9fa;
         }
         .form-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 2rem auto;
             background: #ffffff;
             border-radius: 8px;
@@ -58,14 +58,42 @@
             </div>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Correogg Electrónico</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="ejemplo@correo.com" required>
-                <div class="form-text">No compartiremos tu correo con nadie más.</div>
+                <label for="edad" class="form-label">Edad</label>
+                <select class="form-select" id="edad" name="edad" required>
+                    <option value="" disabled selected>Selecciona tu edad</option>
+                    ${Array.from({ length: 15 }, (_, i) => `<option value="${16 + i}">${16 + i}</option>`).join('')}
+                    <option value="otros">Otros</option>
+                </select>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Sexo</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="femenino" name="sexo" value="Femenino" required>
+                            <label class="form-check-label" for="femenino">Femenino</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="masculino" name="sexo" value="Masculino" required>
+                            <label class="form-check-label" for="masculino">Masculino</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono" required>
+                <label for="ciudad_residencia" class="form-label">Ciudad de Residencia</label>
+                <select class="form-select" id="ciudad_residencia" name="ciudad_residencia" required>
+                    <option value="" disabled selected>Selecciona tu ciudad</option>
+                    <option value="Tacna">Tacna</option>
+                    <option value="otro">Otro</option>
+                </select>
+                <input type="text" class="form-control mt-2 d-none" id="ciudad_otro" name="ciudad_otro" placeholder="Ingresa tu ciudad">
             </div>
 
             <button type="submit" class="btn btn-purple w-100">Enviar</button>
@@ -79,6 +107,19 @@
     <script>
         const form = document.getElementById('inscripcion-form');
         const respuesta = document.getElementById('respuesta');
+        const ciudadResidencia = document.getElementById('ciudad_residencia');
+        const ciudadOtro = document.getElementById('ciudad_otro');
+
+        // Mostrar campo "Otro" cuando se selecciona
+        ciudadResidencia.addEventListener('change', (e) => {
+            if (e.target.value === 'otro') {
+                ciudadOtro.classList.remove('d-none');
+                ciudadOtro.setAttribute('required', 'required');
+            } else {
+                ciudadOtro.classList.add('d-none');
+                ciudadOtro.removeAttribute('required');
+            }
+        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
