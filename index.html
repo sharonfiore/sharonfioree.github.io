@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Inscripción</title>
+</head>
+<body>
+    <h1>Formulario de Inscripción</h1>
+    <form id="inscripcion-form">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required><br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <p id="respuesta" style="color: green;"></p>
+
+    <script>
+        const form = document.getElementById('inscripcion-form');
+        const respuesta = document.getElementById('respuesta');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('TU_URL_DEL_SCRIPT_DE_GOOGLE_APPS_SCRIPT', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    respuesta.textContent = 'Formulario enviado con éxito.';
+                    form.reset();
+                } else {
+                    respuesta.textContent = 'Error al enviar el formulario.';
+                }
+            } catch (error) {
+                respuesta.textContent = 'Error de conexión.';
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
